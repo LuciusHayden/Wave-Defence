@@ -7,11 +7,15 @@ run = True
 while run:
     run = SB.game_end_check()
     SB.screen.fill(SB.screen_color)
-
+    #draws the player and the enemies, in the future this should be moved to a seperate file
+    pygame.draw.rect(SB.screen, (0, 255, 0), entities.player.character) 
+    pygame.draw.rect(SB.screen, (255, 0, 0), entities.enemy.character)
     
+    entities.player.update() #updates the players position
+    entities.enemy.update() #updates the enemies position
+    pygame.display.update() #updates the screen
+    if SB.game_end_check == False: #checks if the game should end and ends it if it should 
+        break 
 
-    entities.player.update()
-    SB.game_end_check()
-    pygame.display.update()
     
 pygame.quit()

@@ -6,19 +6,18 @@ import pygame
 
 pygame.init()
 run = True
-screen_width = 800
-screen_height = 600
+screen_width = 1600
+screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
 screen_color = (0, 0, 0)
 
 
 
 def game_end_check():
-    run = True
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
-    return run
+            return False 
+    return True
     # any future game ending actions should be added here (such as running out of lives)
         
 
