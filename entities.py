@@ -30,9 +30,9 @@ class Player(Character):
             self.pos.y -= self.speed
         if key[pygame.K_s]:
             self.pos.y += self.speed
-        print(self.character.topleft)
+        
 
-class Enemy(Character):
+"""class Enemy(Character):
     def __init__(self, x, y, health, damage, speed, target, spawn_rate, pos):
         super().__init__(x, y, health, damage, speed, pos)
         self.target = player.character
@@ -53,7 +53,29 @@ class Enemy(Character):
         self.pos += self.velocity
         
         # Update the enemy's position attributes
-        self.x, self.y = int(self.pos.x), int(self.pos.y)
+        self.x, self.y = int(self.pos.x), int(self.pos.y)"""
+
+class Enemy(Character):
+    def __init__(self, x, y, health ,damage, speed, target, spawn_rate, pos):
+        super().__init__(x, y, health, damage, speed, pos)
+        self.health = difficulty.enemy_health
+        self.damage = difficulty.enemy_damage
+        self.character = pygame.Rect(x, y, 30, 30) 
+        self.speed = speed
+        self.target = target
+        direction_vector = pygame.math.Vector2(player.character.x - x, player.character.y - y)
+        self.velocity = direction_vector.normalize() * self.speed
+        self.spawn_rate = difficulty.spawn_rate
+
+    def update(self):
+        self.character.topleft = (int(self.pos.x), int(self.pos.y))
+        self.pos += self.velocity
+        self.character.topleft = (int(self.pos.x), int(self.pos.y))
+        direction_vector = pygame.math.Vector2(player.character.x - self.character.x, player.character.y - self.character.y)
+        if direction_vector.length() > 0:  # makes sure the program doesnt crash when the player collides with the enemy (vectors of length 0 cannot be normalized)
+            self.velocity = direction_vector.normalize() * self.speed
+        if self.character.x > SB.screen_width or self.character.x < 0 or self.character.y > SB.screen_height or self.character.y < 0:
+            self.kill()
         
 
 class Projectile(pygame.sprite.Sprite):
@@ -76,5 +98,5 @@ class Projectile(pygame.sprite.Sprite):
 
 # x, y, health, damage, speed, lives, pos
 player = Player(800, 500, difficulty.health, difficulty.damage, 1.5, difficulty.lives, (800, 500))
-# x, y, health, damage, speed, target, spawn_rate, pos)
-enemy = Enemy(200, 200, difficulty.health, difficulty.damage, 1.5, (player.character.x, player.character.y), difficulty.spawn_rate, (200, 200))
+
+enemy = Enemy(200, 200, difficulty.health, difficulty.damage, 0.5, (player.character), difficulty.spawn_rate, (200, 200))

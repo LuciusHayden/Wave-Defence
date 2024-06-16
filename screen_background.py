@@ -11,14 +11,9 @@ screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
 screen_color = (0, 0, 0)
 
+#future changes to background will be made here
 
 
-def game_end_check():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return False 
-    return True
-    # any future game ending actions should be added here (such as running out of lives)
         
 
     
