@@ -3,7 +3,6 @@
 import pygame
 
 
-
 pygame.init()
 run = True
 screen_width = 1600

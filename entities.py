@@ -3,8 +3,11 @@
 import pygame
 import difficulty
 import screen_background as SB
+import checks
+import random
 
 enemies = pygame.sprite.Group()
+projectiles = pygame.sprite.Group()
 
 class Character(pygame.sprite.Sprite):
     def __init__(self, x, y, health, damage, speed, pos):
@@ -32,29 +35,6 @@ class Player(Character):
             self.pos.y += self.speed
         
 
-"""class Enemy(Character):
-    def __init__(self, x, y, health, damage, speed, target, spawn_rate, pos):
-        super().__init__(x, y, health, damage, speed, pos)
-        self.target = player.character
-        self.pos = pygame.math.Vector2(x, y)
-        direction_vector = pygame.math.Vector2(player.character.x - x, player.character.y - y)
-        self.velocity = direction_vector.normalize() * self.speed
-        self.spawn_rate = spawn_rate
-
-    def update(self):
-        # Calculate the direction vector from the enemy to the player
-        direction_vector = pygame.math.Vector2(self.target.x - self.pos.x, self.target.y - self.pos.y)
-
-        # Normalize the direction vector and multiply by the enemy's speed
-        
-        self.velocity = direction_vector.normalize() * self.speed
-        
-        # Update the enemy's position
-        self.pos += self.velocity
-        
-        # Update the enemy's position attributes
-        self.x, self.y = int(self.pos.x), int(self.pos.y)"""
-
 class Enemy(Character):
     def __init__(self, x, y, health ,damage, speed, target, spawn_rate, pos):
         super().__init__(x, y, health, damage, speed, pos)
@@ -74,8 +54,7 @@ class Enemy(Character):
         direction_vector = pygame.math.Vector2(player.character.x - self.character.x, player.character.y - self.character.y)
         if direction_vector.length() > 0:  # makes sure the program doesnt crash when the player collides with the enemy (vectors of length 0 cannot be normalized)
             self.velocity = direction_vector.normalize() * self.speed
-        if self.character.x > SB.screen_width or self.character.x < 0 or self.character.y > SB.screen_height or self.character.y < 0:
-            self.kill()
+        
         
 
 class Projectile(pygame.sprite.Sprite):
@@ -88,15 +67,34 @@ class Projectile(pygame.sprite.Sprite):
         self.target = target
         self.pos = pygame.math.Vector2(x, y)
         direction_vector = pygame.math.Vector2(player.pos.x - x, player.pos.y - y)
-        self.velocity = direction_vector.normalize() * self.speed
+        if direction_vector.length() > 0:  # makes sure the program doesnt crash when the player collides with the enemy (vectors of length 0 cannot be normalized)
+            self.velocity = direction_vector.normalize() * self.speed
 
-        def update(self):
-            self.pos += self.velocity
-            self.character.topleft = (int(self.pos.x), int(self.pos.y))
-            if self.character.x > SB.screen_width or self.character.x < 0 or self.character.y > SB.screen_height or self.character.y < 0:
-                self.kill()
+    def update(self):
+        try: self.pos += self.velocity
+        except Exception: pass
+        
+        self.character.topleft = (int(self.pos.x), int(self.pos.y))
+        if self.character.x > SB.screen_width or self.character.x < 0 or self.character.y > SB.screen_height or self.character.y < 0:
+            self.kill()
+
+
+spawn_locatonsX = [200, 400, 600, 800, 1000, 1200, 1400, 1600]
+spawn_locationsY = [200, 400, 600, 800]
+
+def spawn_enemies(run_time):
+    if run_time % (difficulty.spawn_rate*1000) == 0:
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200))
+        enemies.add(enemy)
+
+
+def spawn_projectiles(run_time):
+    for enemy in enemies:
+        if run_time % 1500 == 0:
+            if random.randint(0,1) == 1:
+                projectile = Projectile(enemy.character.x, enemy.character.y, 15,10, 0.8, (player.character.x, player.character.y))
+                projectiles.add(projectile)
 
 # x, y, health, damage, speed, lives, pos
 player = Player(800, 500, difficulty.health, difficulty.damage, 1.5, difficulty.lives, (800, 500))
 
-enemy = Enemy(200, 200, difficulty.health, difficulty.damage, 0.5, (player.character), difficulty.spawn_rate, (200, 200))
