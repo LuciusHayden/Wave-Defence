@@ -11,3 +11,5 @@ show_projectiles = True
 run_time = pygame.time.get_ticks()
 
 display_lost_life = False
+
+scoreboard = 0

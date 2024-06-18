@@ -11,6 +11,7 @@ if difficulty == "easy":
     spawn_rate = 2
     enemy_health = 30
     enemy_damage = 5
+    score_multiplier = 1.5
 elif difficulty == "medium":
     health = 100
     lives = 2
@@ -18,6 +19,7 @@ elif difficulty == "medium":
     spawn_rate = 1
     enemy_health = 50
     enemy_damage = 8
+    score_multiplier = 1
 else:
     health = 75
     lives = 1
@@ -25,3 +27,4 @@ else:
     spawn_rate = 0.5
     enemy_health = 70
     enemy_damage = 10
+    score_multiplier = 0.5
