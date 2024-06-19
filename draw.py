@@ -1,7 +1,7 @@
 import pygame
 import entities
 import screen_background as SB
-
+import auras
 import checks
 
 
@@ -19,4 +19,4 @@ def draw(run_time):
 
 
     for projectile in entities.player_projectiles:
-        pygame.draw.rect(SB.screen, (255, 0, 0), projectile.character)
+        pygame.draw.rect(SB.screen, (auras.selected.colorX, auras.selected.colorY, auras.selected.colorZ), projectile.character)
