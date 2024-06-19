@@ -44,7 +44,7 @@ class Player(Character):
         
 
 class Enemy(Character):
-    def __init__(self, x, y, health ,damage, speed, target, spawn_rate, pos):
+    def __init__(self, x, y, health ,damage, speed, target, spawn_rate, pos, score_value):
         super().__init__(x, y, health, damage, speed, pos)
         self.health = difficulty.enemy_health
         self.damage = difficulty.enemy_damage
@@ -56,7 +56,7 @@ class Enemy(Character):
         self.spawn_rate = difficulty.spawn_rate
         self.image = enemy_sprite
         self.rect = self.image.get_rect()
-
+        self.score_value = score_value
     def update(self):
         self.character.topleft = (int(self.pos.x), int(self.pos.y))
         self.pos += self.velocity
@@ -117,16 +117,16 @@ spawn_locationsY = [200, 400, 600, 800]
 
 def spawn_enemies(run_time):
     if run_time % (difficulty.spawn_rate*2000) == 0:
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200))
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0:
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200))
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0:
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200))
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0:
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200))
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
 
 
@@ -141,7 +141,7 @@ def spawn_projectiles(run_time):
 
 def starting_enemies():
     for enemy in range(5):
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200))
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
 
 

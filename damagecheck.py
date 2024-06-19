@@ -55,5 +55,5 @@ def damage_check():
     for enemy in entities.enemies:
         if enemy.health <= 0:
             enemy.kill()
-            entities.player.score += 100 * difficulty.score_multiplier
+            entities.player.score += enemy.score_value * difficulty.score_multiplier
 
