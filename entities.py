@@ -128,8 +128,14 @@ def spawn_enemies(run_time):
     if run_time % (difficulty.spawn_rate*2000) == 0:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
+    if run_time % (difficulty.spawn_rate*2000) == 0:
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
+        enemies.add(enemy)
+    if run_time % (difficulty.spawn_rate*2000) == 0:
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
+        enemies.add(enemy)
 
-
+    
 
 def spawn_projectiles(run_time):
     for enemy in enemies:
@@ -148,7 +154,7 @@ def starting_enemies():
 def shoot_projectiles():
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
-            player_projectile = PlayerProjectile(player.character.x, player.character.y, 10, 15, 0.8)
+            player_projectile = PlayerProjectile(player.character.x, player.character.y, 10, difficulty.damage, 0.8)
             player_projectiles.add(player_projectile)
             print("Shot projectile")
 #x, y, size, damage, speed

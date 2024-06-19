@@ -3,6 +3,7 @@ import random
 import text as t
 import checks
 import entities
+import difficulty
 
 pygame.init()
 pygame.font.init()
@@ -39,7 +40,7 @@ class aura:
     def draw(self):
         global wait
         global wait_time
-        print("This is being called")
+        
         self.x = entities.player.character.x
         self.y = entities.player.character.y
         
@@ -56,6 +57,15 @@ class aura:
         pygame.draw.circle(screen, self.background_color, (self.x + 15, self.y + 17), self.radius)
         #screen.blit(self.aura_name, ((screen_width // 2 - self.aura_name.get_width() // 2, screen_height // 2 - self.aura_name.get_height() // 2)))
         #screen.blit(self.rarity, (screen_width // 2 - self.rarity.get_width() // 2, screen_height // 2 - self.rarity.get_height() // 2 + 250))
+
+    def stat_change(self):
+        if checks.stats_changed == False:
+            for projectile in entities.player_projectiles:
+                projectile.damage *= self.multiplier_1 
+            entities.player.health *= self.multiplier_2
+            
+            
+            checks.stats_changed = True
 
 def roll():
     global dice
@@ -88,7 +98,25 @@ def roll():
         selected = CommonList[dice2]
         show_aura = True
         checks.rolled = True
+
+    
     return selected
+
+def roll_check():
+    key = pygame.key.get_pressed()
+    if not checks.rolled and key[pygame.K_SPACE] and entities.player.score >= 1000:
+        for projectile in entities.player_projectiles:
+            projectile.damage = difficulty.damage
+        entities.player.health = difficulty.health
+        
+        checks.stats_changed = False
+        roll()
+        checks.cd_start = pygame.time.get_ticks()
+        entities.player.score -= 1000
+
+            
+    if checks.rolled and pygame.time.get_ticks() - checks.cd_start > total_cooldown:
+        checks.rolled = False
 
 
 BloodLust = aura(700, 475, 130, 0, 0,  "BloodLust", "Mythical", 4.5, 0.3)
@@ -130,7 +158,7 @@ UncommonList.append(Rage)
 UncommonList.append(Ruby)
 UncommonList.append(Gilded)
 
-Common = aura(700, 475, 70, 70, 70, "Common", "Common", 0.8, 0.8)
+Common = aura(700, 475, 70, 70, 70, "Common", "Common", 1, 1)
 Good = aura(700, 475, 70, 70, 70, "Good", "Common" , 1, 1.1)
 Crystal = aura(700, 475, 144, 0, 255, "Crystal", "Common", 0.9, 1.1)
 Evil = aura(700, 475, 144, 70, 70, "Evil", "Common", 1.2, 0.8)
@@ -148,20 +176,9 @@ remaining_cooldown = 0
 total_cooldown = 2000
 
 
-key = pygame.key.get_pressed()
 
-def roll_check():
-    if not checks.rolled:
-        
-        roll()
-        checks.cd_start = pygame.time.get_ticks()
 
-            
-    if show_aura:
-        pass 
-        
-    if checks.rolled and pygame.time.get_ticks() - checks.cd_start > total_cooldown:
-        checks.rolled = False
+selected = Common
 
 #print(f"Rolled: {rolled} Show Aura: {show_aura} Remaining Cooldown: {remaining_cooldown}" )
 #print(MythicList, CommonList)

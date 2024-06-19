@@ -21,7 +21,7 @@ total_cooldown = 5000
 display_lost_life = False
 
 show_aura = True
-
+stats_changed = False
 cd_start = 0
 
 #remaining_cooldown = total_cooldown - (pygame.time.get_ticks() - auras.cd_start)
