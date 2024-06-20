@@ -23,7 +23,10 @@ while run:
     
     SB.screen.blit(SB.background_image, (0, 0))
     if checks.show_title == True:
-        
+        entities.player.health = difficulty.health
+        entities.player.lives = difficulty.lives
+        for enemy in entities.enemies:
+            enemy.kill()
         t.display_text(0)
 
         if key[pygame.K_f] and pygame.time.get_ticks() - checks.timer > 1000:

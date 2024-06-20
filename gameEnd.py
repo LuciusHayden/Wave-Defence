@@ -1,9 +1,11 @@
 import pygame
 import entities
+import checks
 
 def game_end_check():
+
     if entities.player.lives <= 0:
-        return False
+        checks.show_title = True
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
