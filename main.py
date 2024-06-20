@@ -10,7 +10,7 @@ import auras
 import difficulty
 
 
-entities.starting_enemies() #spawns 5 enemies to start out with
+
 
 run = True
 while run:
@@ -49,6 +49,11 @@ while run:
 
 
     else:
+
+        if checks.once_counter == 0: # makes sure that enemies only spawn once
+            entities.starting_enemies() #spawns 5 enemies to start out with
+            checks.once_counter += 1
+
         run_time = pygame.time.get_ticks()
         run = ge.game_end_check()
         

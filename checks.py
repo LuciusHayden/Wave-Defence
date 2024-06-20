@@ -33,3 +33,5 @@ rolled = False
 show_title = True
 
 timer = 0
+
+once_counter = 0

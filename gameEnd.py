@@ -6,7 +6,7 @@ def game_end_check():
 
     if entities.player.lives <= 0:
         checks.show_title = True
-
+        checks.once_counter = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False 
