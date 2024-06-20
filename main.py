@@ -32,10 +32,7 @@ while run:
     entities.spawn_enemies(run_time)
     entities.spawn_projectiles(run_time)
     entities.player_projectiles.update()
-    
-    
-    """for projectile in entities.player_projectiles:
-        print(entities.player.health, projectile.damage) # for testing"""
+
     
     pygame.display.flip()
     if ge.game_end_check == False: #checks if the game should end and ends it if it shoudld 

@@ -49,7 +49,7 @@ def damage_check():
     for projectile in entities.player_projectiles:
         for enemy in entities.enemies:
             if projectile.character.colliderect(enemy.character):
-                enemy.health -= projectile.damage
+                enemy.health -= entities.player.damage
                 projectile.kill()
 
     for enemy in entities.enemies:

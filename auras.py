@@ -28,8 +28,8 @@ class aura:
         self.colorZ = colorZ
         self.color = (self.colorX, self.colorY, self.colorZ)
         self.radius = 40
-        self.aura_name = font.render(aura_name, True, (255, 255, 255))
-        self.rarity = font.render(rarity, True, (255, 255, 255))
+        self.aura_name = font.render(f"Aura: {aura_name}", True, (255, 255, 255)) 
+        self.rarity = font.render(f"Rarity: {rarity}", True, (255, 255, 255))
         self.backgroundX = colorX - 120
         self.backgroundY = colorY - 120
         self.backgroundZ = colorZ - 120
@@ -55,14 +55,14 @@ class aura:
         
         self.background_color = (self.backgroundX, self.backgroundY, self.backgroundZ)
         pygame.draw.circle(screen, self.background_color, (self.x + 15, self.y + 17), self.radius)
-        #screen.blit(self.aura_name, ((screen_width // 2 - self.aura_name.get_width() // 2, screen_height // 2 - self.aura_name.get_height() // 2)))
-        #screen.blit(self.rarity, (screen_width // 2 - self.rarity.get_width() // 2, screen_height // 2 - self.rarity.get_height() // 2 + 250))
+        screen.blit(self.aura_name, ((screen_width - 200 -  self.aura_name.get_width() // 2, screen_height  - 100 - self.aura_name.get_height() // 2)))
+        screen.blit(self.rarity, (screen_width - 200 - self.rarity.get_width() // 2, screen_height  - 100 - self.aura_name.get_height() // 2 + 65))
 
     def stat_change(self):
         if checks.stats_changed == False:
-            for projectile in entities.player_projectiles:
-                projectile.damage *= self.multiplier_1 
-            entities.player.health *= self.multiplier_2
+            entities.player.damage *= self.multiplier_1 
+            for enemy in entities.enemies:
+                enemy.health *= (1 /self.multiplier_2)
             
             
             checks.stats_changed = True
@@ -107,7 +107,8 @@ def roll_check():
     if not checks.rolled and key[pygame.K_SPACE] and entities.player.score >= 1000:
         for projectile in entities.player_projectiles:
             projectile.damage = difficulty.damage
-        entities.player.health = difficulty.health
+        for enemy in entities.enemies:
+            enemy.health = difficulty.health
         
         checks.stats_changed = False
         roll()
