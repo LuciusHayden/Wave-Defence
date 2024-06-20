@@ -6,11 +6,15 @@ import checks
 import random
 
 enemies = pygame.sprite.Group()
+enemies2 = pygame.sprite.Group()
+enemies3 = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
 player_projectiles = pygame.sprite.Group()
 
 player_sprite = pygame.image.load('images/player-sprite.png').convert_alpha()
 enemy_sprite = pygame.image.load('images/enemy-sprite.png').convert_alpha()
+enemy2_sprite = pygame.image.load('images/enemy2_sprite.png').convert_alpha()
+enemy3_sprite = pygame.image.load('images/enemy3_sprite.png').convert_alpha()
 
 
 
@@ -67,6 +71,7 @@ class Enemy(Character):
         if direction_vector.length() > 0:  # makes sure the program doesnt crash when the player collides with the enemy (vectors of length 0 cannot be normalized)
             self.velocity = direction_vector.normalize() * self.speed
         
+
         
 
 class Projectile(pygame.sprite.Sprite):
@@ -89,13 +94,15 @@ class Projectile(pygame.sprite.Sprite):
         except Exception: pass
         
         self.character.topleft = (int(self.pos.x), int(self.pos.y))
-        if pygame.time.get_ticks() - self.spawn_time < 1500:
+        if pygame.time.get_ticks() - self.spawn_time < 500:
             direction_vector = pygame.math.Vector2(player.character.x - self.character.x, player.character.y - self.character.y)
             if direction_vector.length() > 0:  # makes sure the program doesnt crash when the player collides with the enemy (vectors of length 0 cannot be normalized)
                 self.velocity = direction_vector.normalize() * self.speed
         
         if self.character.x > SB.screen_width or self.character.x < 0 or self.character.y > SB.screen_height or self.character.y < 0:
             self.kill()
+        
+        
 
 class PlayerProjectile(pygame.sprite.Sprite):
     def __init__(self, x, y, size, damage, speed):
@@ -143,27 +150,29 @@ def spawn_enemies(run_time):
     if run_time % (difficulty.spawn_rate*2000) == 0:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.9), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
-    if run_time % (difficulty.spawn_rate*5000) == 0 and run_time > 30000:
+    if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 30000:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health , difficulty.damage * 2, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 1000)
+        enemies2.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 30000 :
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.5), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 30000:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.9), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
-    if run_time % (difficulty.spawn_rate*5000) == 0 and run_time > 50000:
+    if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 50000:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health , difficulty.damage * 2, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 1000)
-    if run_time % (difficulty.spawn_rate*10000) == 0 and run_time > 50000 :
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health * 2, difficulty.damage * 4, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 100)
-        enemies.add(enemy)
+        enemies2.add(enemy)
+    if run_time % (difficulty.spawn_rate*3000) == 0 and run_time > 50000 :
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health * 2, difficulty.damage * 4, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 5000)
+        enemies3.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 50000:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.9), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
-    if run_time % (difficulty.spawn_rate*5000) == 0 and run_time > 50000:
+    if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 50000:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health , difficulty.damage * 2, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 1000)
-    if run_time % (difficulty.spawn_rate*10000) == 0 and run_time > 50000 :
-        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health * 2, difficulty.damage * 4, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 100)
-        enemies.add(enemy)
+    if run_time % (difficulty.spawn_rate*3000) == 0 and run_time > 50000 :
+        enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health * 2, difficulty.damage * 4, 0.84, (player.character), difficulty.spawn_rate, (200, 200), 5000)
+        enemies3.add(enemy)
     if run_time % (difficulty.spawn_rate*2000) == 0 and run_time > 50000:
         enemy = Enemy(random.choice(spawn_locatonsX), random.choice(spawn_locationsY), difficulty.health // 2, difficulty.damage, random.uniform(0.3,0.9), (player.character), difficulty.spawn_rate, (200, 200), 100)
         enemies.add(enemy)
@@ -171,7 +180,7 @@ def spawn_projectiles(run_time):
     for enemy in enemies:
         if run_time % 1500 == 0:
             if random.randint(0,1) == 1:
-                projectile = Projectile(enemy.character.x, enemy.character.y, 15,10, 1, (player.character.x, player.character.y))
+                projectile = Projectile(enemy.character.x, enemy.character.y, 15,10, 1.3, (player.character.x, player.character.y))
                 projectiles.add(projectile)
 
 

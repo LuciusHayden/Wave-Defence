@@ -10,8 +10,6 @@ import auras
 import difficulty
 
 
-
-
 run = True
 while run:
     key = pygame.key.get_pressed()
@@ -68,6 +66,8 @@ while run:
         
         entities.player.update() #updates the players position
         entities.enemies.update() #updates the enemies position
+        entities.enemies2.update() # updates the enemies position (stronger type)
+        entities.enemies3.update() # updates the enemies position (strongest type)
         entities.shoot_projectiles()
         dc.damage_check() #checks if the player or enemies should/can be damaged
         entities.projectiles.update()

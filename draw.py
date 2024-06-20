@@ -9,6 +9,12 @@ def draw(run_time):
     for enemy in entities.enemies:
         entities.enemy_sprite = pygame.transform.scale(entities.enemy_sprite, (enemy.character.width, enemy.character.height))
         SB.screen.blit(entities.enemy_sprite, enemy.character)
+    for enemy in entities.enemies2:
+        entities.enemy2_sprite = pygame.transform.scale(entities.enemy2_sprite, (enemy.character.width, enemy.character.height))
+        SB.screen.blit(entities.enemy2_sprite, enemy.character)
+    for enemy in entities.enemies3:
+        entities.enemy3_sprite = pygame.transform.scale(entities.enemy3_sprite, (enemy.character.width, enemy.character.height))
+        SB.screen.blit(entities.enemy3_sprite, enemy.character)
 
     entities.player_sprite = pygame.transform.scale(entities.player_sprite, (entities.player.character.width, entities.player.character.height))
     SB.screen.blit(entities.player_sprite, entities.player.character)
