@@ -29,3 +29,7 @@ cd_start = 0
 scoreboard = 0
 
 rolled = False
+
+show_title = True
+
+timer = 0
