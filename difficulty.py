@@ -1,10 +1,9 @@
 # anything that relates to difficulty should go here
 # keep in mind that the spawn rate actually is in reverse, a smaller number means faster spawns
+import checks
 
-difficulty = 0
 
-
-if difficulty == 0:
+if checks.difficulty == 0:
     health = 150
     lives = 3
     damage = 10
@@ -13,7 +12,7 @@ if difficulty == 0:
     enemy_damage = 5
     score_multiplier = 1.5
     text = "Easy"
-elif difficulty == 1:
+if checks.difficulty == 1:
     health = 100
     lives = 2
     damage = 5
@@ -32,12 +31,16 @@ else:
     score_multiplier = 0.5
     text = "Hard"
 
+
+
+
 def set_difficulty():
     global text
-    if difficulty == 0:
+    if checks.difficulty == 0:
         text = "Easy"
-        print("yuh")
-    elif difficulty == 1:
+        
+    elif checks.difficulty == 1:
         text = "Normal"
     else:
+        
         text = "Hard"

@@ -25,18 +25,22 @@ while run:
         entities.player.lives = difficulty.lives
         for enemy in entities.enemies:
             enemy.kill()
+        for enemy in entities.enemies2:
+            enemy.kill()
+        for enemy in entities.enemies3:
+            enemy.kill()
         t.display_text(0)
 
         if key[pygame.K_f] and pygame.time.get_ticks() - checks.timer > 1000:
             difficulty.set_difficulty()
-            difficulty.difficulty += 1
+            checks.difficulty += 1
             difficulty.set_difficulty()
-            if difficulty.difficulty > 2:
-                difficulty.difficulty = 0
+            if checks.difficulty > 2:
+                checks.difficulty = 0
             checks.timer = pygame.time.get_ticks()
 
         
-
+        end_title_screen_time = pygame.time.get_ticks()
         
         if key[pygame.K_SPACE]:
             checks.show_title = False
@@ -52,7 +56,7 @@ while run:
             entities.starting_enemies() #spawns 5 enemies to start out with
             checks.once_counter += 1
 
-        run_time = pygame.time.get_ticks()
+        run_time = pygame.time.get_ticks() - end_title_screen_time
         run = ge.game_end_check()
         
 

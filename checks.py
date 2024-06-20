@@ -35,3 +35,5 @@ show_title = True
 timer = 0
 
 once_counter = 0
+
+difficulty = 0
