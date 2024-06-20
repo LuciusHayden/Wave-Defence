@@ -36,7 +36,7 @@ while run:
 
         
 
-        print(difficulty.difficulty, difficulty.text)
+        
         if key[pygame.K_SPACE]:
             checks.show_title = False
 
